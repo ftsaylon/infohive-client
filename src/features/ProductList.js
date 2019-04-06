@@ -33,7 +33,7 @@ export default class ProductList extends Component {
 		}else{
 			return null
 		}
-	  }
+	}
 	componentDidUpdate(prevProps, prevState){
 		// console.log(this.state);
 		if(this.state.products.length!==0){
