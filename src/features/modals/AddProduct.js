@@ -173,7 +173,7 @@ class AddProduct extends Component{
                 
                 .then(                  //Generated File name
                     (res)=>{
-                        // console.log(res.data);    
+                        console.log(res.data);    
                         product.imageUrl = 'http://localhost:5000/images/'+res.data;            //Update URL
                         // console.log("UPDATED PRODUCT");
                         // console.log(product);

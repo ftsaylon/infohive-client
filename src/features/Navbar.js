@@ -61,6 +61,11 @@ class Navbar extends Component{
 						name="Farm Maps"
 						to="/farm-maps"
 					/>
+					<Menu.Item
+						as={Link}
+						name="Farm Info"
+						to="/farm"
+					/>
 					<Menu.Item position="right">
 						<Form onSubmit={this.searchTrigger}>
 							<Form.Field>

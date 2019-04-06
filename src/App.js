@@ -15,7 +15,9 @@ import Admin from './features/admin/Admin';
 import Navbar from './features/Navbar';
 import Orders from './features/commerce/Orders';
 import AdminNavbar from './features/admin/AdminNavbar';
+import FarmInfo from './features/sp/FarmInfo';
 import FarmMaps from './features/sp/FarmMaps';
+import Bee from './features/sp/Bee';
 
 // helpers
 import {getUserTag} from './sessionhandler'
@@ -121,7 +123,15 @@ class App extends Component {
                    component={ProductList}/>
             <Route path="/farm-maps"
                    exact={true}
-                   component={FarmMaps} 
+                   component={FarmMaps}
+            />
+            <Route path="/farm"
+                   exact={true}
+                   component={FarmInfo}
+            />
+            <Route path="/bee/:id"
+                   exact={true}
+                   component={Bee}
             />
             {
               this.state.isAdmin ?
