@@ -63,8 +63,8 @@ class Navbar extends Component{
 					/>
 					<Menu.Item
 						as={Link}
-						name="Farm Info"
-						to="/farm"
+						name="Bee Forum"
+						to="/forum"
 					/>
 					<Menu.Item position="right">
 						<Form onSubmit={this.searchTrigger}>

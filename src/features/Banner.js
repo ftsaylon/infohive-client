@@ -7,7 +7,7 @@ class Banner extends Component {
     return (
       <Fragment>
         <Segment
-          style={{ padding: 80 }}
+          style={{ padding: 40 }}
           textAlign="center"
           inverted color="orange"
           vertical>

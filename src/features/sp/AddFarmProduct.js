@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Form, Button, Dropdown, TextArea } from 'semantic-ui-react';
+import { Modal, Form, Button, Dropdown } from 'semantic-ui-react';
 import axios from 'axios';
 import { getUserTag } from '../../sessionhandler';
 class AddFarmProduct extends Component{
@@ -32,7 +32,7 @@ class AddFarmProduct extends Component{
 
         axios.post(`/farm/putproduct`, Product )                        //Actual Product Insert
         .then(res => {
-            // this.props.updateList("Product", 'added');
+            this.props.updateList("product", 'added');
             this.setState({         
                 product_id:""
             });

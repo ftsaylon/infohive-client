@@ -55,7 +55,13 @@ class AdminNavbar extends Component{
 					</Dropdown.Menu>
 					</Dropdown>
 					</Menu.Item>
-
+					<Menu.Item 
+						name="Bees"
+						active={ this.state.activeItem === 'Bees'}
+						onClick={this.changeActive}
+						as={Link}
+						to="/admin/bees"
+					/>
 					<Menu.Item>
 					<Dropdown text="Sales Management" pointing>
 					<Dropdown.Menu>

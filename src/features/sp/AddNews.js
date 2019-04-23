@@ -3,15 +3,17 @@ import { Modal, Form, Button } from 'semantic-ui-react';
 import axios from 'axios';
 
 //helpers
-import { getUserTag } from '../../sessionhandler';
+import {getUserTag, getProfile} from '../../sessionhandler'
 
 class AddNews extends Component{
     constructor(props){
         super(props);
         this.state = {
+            title: '', 
             content: '',
             showModal: false,
             contentError:false,
+            titleError:false
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -21,6 +23,7 @@ class AddNews extends Component{
     
     formValidation(){
         const contentregex = /[±!@£$%^&*_+§¡€#¢§¶•ªº«/<>?:;|=.,]/;
+        const titleregex = /[±!@£$%^&*_+§¡€#¢§¶•ªº«/<>?:;|=.,]/;
         var flag = true;
         //Comparison to Regex
         if(this.state.content.match(contentregex) || this.state.content.length===0){
@@ -28,6 +31,12 @@ class AddNews extends Component{
             flag = false;
         }else{
             this.setState({contentError:false});            
+        }
+        if(this.state.title.match(titleregex) || this.state.title.length===0){
+            this.setState({titleError: true});
+            flag = false;
+        }else{
+            this.setState({titleError:false});            
         }
         return flag;
     }
@@ -40,19 +49,21 @@ class AddNews extends Component{
         event.preventDefault();
 
         const news = {
+            title: this.state.title,
             news: this.state.content,
             user_id: this.props.user_id,
-            writer: "Francis Saylon",
+            writer: getProfile().name,
             user_tag: getUserTag() 
         };
 
         if(this.formValidation()){
-            axios.post(`news/insert`, news )
+            axios.post(`/news/insert`, news )
             .then(res => {
                 console.log(res);
                 console.log(res.data);
                 this.props.updateList("news", 'added');
-                this.setState({         
+                this.setState({
+                    title:'',         
                     content: ''
                 });
                 this.closeModal();
@@ -76,9 +87,13 @@ class AddNews extends Component{
                     <Modal.Header>Add News</Modal.Header>
                     <Modal.Content>
                     <Form onSubmit={this.handleSubmit}>
+                        <Form.Field required onChange={this.handleChange} error={this.state.titleError}>
+                            <label>Title</label>
+                            <input name="title" placeholder='Title'/>
+                        </Form.Field>
                         <Form.Field required onChange={this.handleChange} error={this.state.contentError}>
                             <label>News content</label>
-                            <input name="content" placeholder='News' maxLength={15}/>
+                            <input name="content" placeholder='News'/>
                         </Form.Field>
                         <Button type="submit" positive>Submit</Button>
                         <Button negative onClick={this.closeModal}>Cancel</Button>

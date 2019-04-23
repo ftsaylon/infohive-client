@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { Modal, Form, Button, TextArea } from 'semantic-ui-react';
+import { Modal, Form, Button, TextArea, Icon } from 'semantic-ui-react';
 import axios from 'axios';
 import { getUserTag } from '../../sessionhandler';
-class AddBee extends Component{
+
+class UpdateBee extends Component{
     constructor(props){
 		super(props);
 		this.state={
+            id: '',
             name: '',
             description: '',
             imageUrl: '',
@@ -13,8 +15,7 @@ class AddBee extends Component{
             descriptionError: false,
             imageUrlError: false,
             showModal: false,
-            bee:{},
-            file:null
+            bee:{}
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -29,11 +30,29 @@ class AddBee extends Component{
         );
     }
 
+    componentDidMount(){
+        this.setState({
+            id: this.props.currentItem.id,
+            name: this.props.currentItem.name,
+            description: this.props.currentItem.description,
+            imageUrl: this.props.currentItem.imageUrl
+        })
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            id: nextProps.currentItem.id,
+            name: nextProps.currentItem.name,
+            description: nextProps.currentItem.description,
+            imageUrl: nextProps.currentItem.imageUrl
+        })
+    }
+
+
     formValidation(){
         const {
             name,
             description,
-            imageUrl
         } = this.state
 
         const nameregex = /[±!@£$%^&*_§¡€#¢§¶•ªº«/<>?:;|=,]/;
@@ -51,12 +70,6 @@ class AddBee extends Component{
             this.setState({descriptionError:true});
             flag = false;
         }
-        if(imageUrl.length>0){
-            this.setState({imageUrlError:false});
-        }else{
-            this.setState({imageUrlError:true});
-            flag = false;
-        }
         return flag;
     }
 
@@ -67,15 +80,16 @@ class AddBee extends Component{
         });
     }
 
-    handleSubmit = event => {
+    handleSubmit = (event, id) => {
         event.preventDefault();
+
         const {
             name,
             description,
             imageUrl
         } = this.state
 
-        var Bee = {
+        const bee = {
             name: name,
             description: description,
             imageUrl: imageUrl,
@@ -84,37 +98,37 @@ class AddBee extends Component{
 
         if(this.formValidation()){
             console.log(this.state);
-            //Image Insert
-            const config = {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            };
-            var fd = new FormData();
-            fd.append('image',this.state.file);
-            axios.post('http://localhost:5000/upload', fd, config)      //Image Insert
-            
-            .then(                  //Generated File name
-                (res)=>{
-                    // console.log(res.data);    
-                    Bee.imageUrl = 'http://localhost:5000/images/'+res.data;            //Update URL
-                    // console.log("UPDATED Bee");
-                    // console.log(Bee);
-                    axios.post(`/bee/insertbee`, Bee )                        //Actual Bee Insert
-                    .then(res => {
-                        this.props.updateList("bee", 'added');
-                        this.setState({         
-                            name: '',
-                            description: '',
-                            imageUrl: ''
-                        });
-                        this.closeModal();
-                    })
-                    .catch(e => {
-                        console.log(e.response);
-                    })
-                }
-            )   
+                //Image Insert
+                const config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                };
+                var fd = new FormData();
+                fd.append('image',this.state.file);
+                axios.post('http://localhost:5000/upload', fd, config)      //Image Insert
+                
+                .then(                  //Generated File name
+                    (res)=>{
+                        // console.log(res.data);    
+                        bee.imageUrl = 'http://localhost:5000/images/'+res.data;            //Update URL
+                        // console.log("UPDATED Bee");
+                        // console.log(Bee);
+                        axios.put(`/bee/${id}`, bee )                        //Actual Bee Insert
+                        .then(res => {
+                            this.props.updateList("bee", 'edited');
+                            this.setState({         
+                                name: '',
+                                description: '',
+                                imageUrl: ''
+                            });
+                            this.closeModal();
+                        })
+                        .catch(e => {
+                            console.log(e.response);
+                        })
+                    }
+                )
         }
         // console.log(this.state);
     }
@@ -149,10 +163,10 @@ class AddBee extends Component{
         
         return(
             <div>
-                <Modal size="tiny" closeIcon onClose={this.closeModal} open={showModal} trigger={<Button onClick={() => this.setState({ showModal: true })}>Add Bee</Button>}>
-                    <Modal.Header> Add Bee </Modal.Header>
+                <Modal size='tiny' closeIcon onClose={this.closeModal} open={showModal} trigger={<Button onClick={() => this.setState({ showModal: true })} compact attached="top"> <Icon name="settings"/> Edit</Button>}>
+                    <Modal.Header> Update Bee </Modal.Header>
                     <Modal.Content>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form onSubmit={(e) => this.handleSubmit(e, this.props.currentItem.id)}> 
                         <Form.Group>
                             <Form.Field width={8} required onChange={this.handleChange} error={nameError}>
                                 <label>Bee Name</label>
@@ -164,7 +178,7 @@ class AddBee extends Component{
                             <TextArea value={description} name='description' placeholder='Bee Description' />
                         </Form.Field>
                         <Form.Group>
-                            <Form.Field required onChange={this.handleChange}>
+                            <Form.Field onChange={this.handleChange}>
                                 <label>Image URL</label>
                                 {/* <input name='imageUrl' defaultValue={this.state.imageUrl} placeholder="ex. http://google.com" maxLength={100}/> */}
                                 <input name="image" type="file" onChange={this.uploadImageHandler}   />
@@ -180,4 +194,4 @@ class AddBee extends Component{
     }
 }
 
-export default AddBee;
+export default UpdateBee;

@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import {NotificationManager} from 'react-notifications';
+import { getUserTag } from '../../sessionhandler';
 import axios from 'axios';
 import  { Grid, Header, Segment, Card, Image, Divider, Label, Container, Feed } from 'semantic-ui-react';
 
-export default class FarmInfo extends Component{
+import AddFarmBee from './AddFarmBee';
+import AddFarmProduct from './AddFarmProduct';
+import AddNews from './AddNews';
+
+export default class UserFarmInfo extends Component{
     constructor(props){
         super(props);
         this.state={
@@ -30,7 +35,7 @@ export default class FarmInfo extends Component{
     }
 
     loadValues(){
-        axios.get(`/farm/${this.props.match.params.id}`)
+        axios.post(`/farm/`, {user_tag: getUserTag()})
         .then(response => {
 			console.log(response)
             this.setState({farm: response.data.result})
@@ -80,59 +85,21 @@ export default class FarmInfo extends Component{
         })
     }
 
-    loadValuesForProduct(){ 
-        axios.get(`/contact`).then(
-			(response)=>{
-                // console.log(response.data);
-                this.setState({ contact:response.data });
-			}
-        );
-
-        axios.get(`/distributor`).then(
-			(response)=>{
-                // console.log(response.data);
-                this.setState({ distributor:response.data });
-			}
-        );
-        
-        axios.get(`/category`).then(
-			(response)=>{
-                // console.log(response.data);
-                this.setState({ category:response.data });
-			}
-        );
-    }
 
     componentDidMount(){
         this.loadValues();
-        this.loadValuesForProduct();
+        // this.loadValuesForProduct();
     }
     
     updateList = (path, action) => {
-        // axios.get(`/${path}`).then(
-		// 	(response)=>{
-        //         // console.log(response.data);
-        //         this.setState({ [path]: response.data });
-        //         NotificationManager.success(`Successfully ${action} ${path}`)
-        //     }
-        // )
         this.loadValues();
-        this.loadValuesForProduct();
+        NotificationManager.success(`Successfully ${action} ${path}`)
     }
     
     render(){
-        // Geocode.fromLatLng(this.state.farm.lat, this.state.farm.lng).then(
-        //     response => {
-        //         this.setState({address: response.results[0].formatted_address});
-        //         console.log(response.results[0].formatted_address)
-        //     },
-        //     error => {
-        //         console.error(error);
-        //     }
-        // );
 
         return(
-            <div className="FarmInfo">
+            <div className="UserFarmInfo">
             <Divider/>
                 <Grid columns={4}>
                     <Grid.Column>
@@ -152,6 +119,10 @@ export default class FarmInfo extends Component{
                         <Segment>
                             <Header> Feed </Header>
                             <Divider/>
+                            <AddNews
+                                updateList = {this.updateList}
+                                user_id = {this.state.farm.user_id}
+                            />
                             <Feed>
                                 {
                                     this.state.news.map((item, index) =>{
@@ -161,6 +132,7 @@ export default class FarmInfo extends Component{
                                                 {/* <img src='/images/avatar/small/elliot.jpg' /> */}
                                             </Feed.Label>
                                             <Feed.Content>
+                                            <Feed.Label>{item.title}</Feed.Label>
                                                 <Feed.Summary>
                                                 <Feed.User>{item.writer}</Feed.User>
                                                 <br/>
@@ -174,12 +146,16 @@ export default class FarmInfo extends Component{
                                         );
                                     })
                                 }
-                        </Feed>
+                            </Feed>
                         </Segment>
                     </Grid.Column>
                     <Grid.Column>
                         <Segment>
                             <Header> Bees in the Farm </Header>
+                            <AddFarmBee
+                                updateList = {this.updateList}
+                                farm_id = {this.state.farm.id}
+                            />
                             <Divider/>
                             <Card.Group>
                                 {
@@ -200,6 +176,10 @@ export default class FarmInfo extends Component{
                     <Grid.Column>
                         <Segment>
                             <Header> Products Available </Header>
+                            <AddFarmProduct
+                                updateList = {this.updateList}
+                                farm_id = {this.state.farm.id}
+                            />
                             <Divider/>
                             <Card.Group>
                             {

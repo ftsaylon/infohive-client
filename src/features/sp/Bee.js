@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Divider, Grid, Container, Header, Image, Card } from 'semantic-ui-react';
+import { Divider, Container, Header, Image } from 'semantic-ui-react';
 
 export default class Product extends Component{
     constructor(props){

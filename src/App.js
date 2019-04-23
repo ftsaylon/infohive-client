@@ -16,13 +16,15 @@ import Navbar from './features/Navbar';
 import Orders from './features/commerce/Orders';
 import AdminNavbar from './features/admin/AdminNavbar';
 import FarmInfo from './features/sp/FarmInfo';
+import UserFarmInfo from './features/sp/UserFarmInfo';
 import FarmMaps from './features/sp/FarmMaps';
 import Bee from './features/sp/Bee';
+import ForumPage from './features/sp/ForumPage';
 
 // helpers
 import {getUserTag} from './sessionhandler'
 // import multer from 'multer';
-//CSS
+//CSS,,,,,,.l.,.,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
 //Const for image uploading
 // const multerConfig = {
@@ -125,13 +127,17 @@ class App extends Component {
                    exact={true}
                    component={FarmMaps}
             />
-            <Route path="/farm"
+            <Route path="/farm/:id"
                    exact={true}
                    component={FarmInfo}
             />
             <Route path="/bee/:id"
                    exact={true}
                    component={Bee}
+            />
+            <Route path="/forum"
+                   exact={true}
+                   component={ForumPage}
             />
             {
               this.state.isAdmin ?

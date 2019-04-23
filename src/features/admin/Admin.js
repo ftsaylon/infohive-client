@@ -13,6 +13,9 @@ import AdminUser from './AdminUser';
 import AdminApprovals from './AdminApprovals';
 import Tester from './../test/TestInput';
 import GeneralConfirm from './../modals/GeneralConfirm';
+import AdminBees from '../sp/AdminBees';
+import UserFarmInfo from '../sp/UserFarmInfo';
+
 // helpers
 import {getUserTag} from '../../sessionhandler'
 
@@ -21,6 +24,7 @@ class Admin extends Component{
         super(props);
         this.state = {
             product:[],
+            bee:[],
             contact:[],
             distributor:[],
             allProducts: [],
@@ -81,6 +85,13 @@ class Admin extends Component{
 			(response)=>{
                 // console.log(response.data);
                 this.setState({ category:response.data });
+			}
+        );
+
+        axios.get(`/bee`).then(
+			(response)=>{
+                // console.log(response.data);
+                this.setState({ bee:response.data });
 			}
         );
         
@@ -243,7 +254,24 @@ class Admin extends Component{
                                     ...props}
                                 />
                                 } 
-                        />         
+                        />
+                        <Route 
+                            path="/admin/bees"
+                            exact={true}
+                            render={
+                                (props) => 
+                                <AdminBees
+                                    bee={this.state.bee}
+                                    updateList={this.updateList}
+                                    handleDeleteSubmit={this.handleDeleteSubmit}
+                                    sorter={this.sortColumn}
+                                />
+                            }
+                        />           
+                        <Route path="/admin/farm/:id"
+                            exact={true}
+                            component={UserFarmInfo}
+                        />
                 </React.Fragment>
         )
     }
