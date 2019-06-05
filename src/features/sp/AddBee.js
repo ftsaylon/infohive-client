@@ -32,8 +32,7 @@ class AddBee extends Component{
     formValidation(){
         const {
             name,
-            description,
-            imageUrl
+            description
         } = this.state
 
         const nameregex = /[±!@£$%^&*_§¡€#¢§¶•ªº«/<>?:;|=,]/;
@@ -49,12 +48,6 @@ class AddBee extends Component{
             this.setState({descriptionError:false});
         }else{
             this.setState({descriptionError:true});
-            flag = false;
-        }
-        if(imageUrl.length>0){
-            this.setState({imageUrlError:false});
-        }else{
-            this.setState({imageUrlError:true});
             flag = false;
         }
         return flag;
@@ -83,6 +76,7 @@ class AddBee extends Component{
         };
 
         if(this.formValidation()){
+            console.log("READY")
             console.log(this.state);
             //Image Insert
             const config = {
@@ -156,12 +150,12 @@ class AddBee extends Component{
                         <Form.Group>
                             <Form.Field width={8} required onChange={this.handleChange} error={nameError}>
                                 <label>Bee Name</label>
-                                <input required value={name} name='name' placeholder='Bee Name' />
+                                <input required name='name' placeholder='Bee Name' />
                             </Form.Field>
                         </Form.Group>
                         <Form.Field required onChange={this.handleChange} error={descriptionError}>
                             <label>Description</label>
-                            <TextArea value={description} name='description' placeholder='Bee Description' />
+                            <TextArea name='description' placeholder='Bee Description' />
                         </Form.Field>
                         <Form.Group>
                             <Form.Field required onChange={this.handleChange}>

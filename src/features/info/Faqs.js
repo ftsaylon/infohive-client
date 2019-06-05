@@ -6,7 +6,7 @@ class Faqs extends Component {
    
     render() {
         return (
-            <div>
+            <div  textAlign="justified">
                 <br/><br/>
                 <Container>
                     <Header as="h1">Frequently Asked Questions</Header>

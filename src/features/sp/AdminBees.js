@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import CurrencyFormat from 'react-currency-format';
 import { Grid, Header, Table, Button, Icon, Container, Divider, Image } from 'semantic-ui-react';
 
 // defined components

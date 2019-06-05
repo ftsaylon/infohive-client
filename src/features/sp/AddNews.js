@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Modal, Form, Button } from 'semantic-ui-react';
+import { TextArea, Form, Button, Segment, Header } from 'semantic-ui-react';
 import axios from 'axios';
 
 //helpers
-import {getUserTag, getProfile} from '../../sessionhandler'
+import {getUserTag, getProfile} from '../../sessionhandler';
 
 class AddNews extends Component{
     constructor(props){
@@ -22,16 +22,16 @@ class AddNews extends Component{
     }
     
     formValidation(){
-        const contentregex = /[±!@£$%^&*_+§¡€#¢§¶•ªº«/<>?:;|=.,]/;
+        // const contentregex = /[±!@£$%^&*_+§¡€#¢§¶•ªº«/<>?:;|=.,]/;
         const titleregex = /[±!@£$%^&*_+§¡€#¢§¶•ªº«/<>?:;|=.,]/;
         var flag = true;
         //Comparison to Regex
-        if(this.state.content.match(contentregex) || this.state.content.length===0){
-            this.setState({contentError: true});
-            flag = false;
-        }else{
-            this.setState({contentError:false});            
-        }
+        // if(this.state.content.match(contentregex) || this.state.content.length===0){
+        //     this.setState({contentError: true});
+        //     flag = false;
+        // }else{
+        //     this.setState({contentError:false});            
+        // }
         if(this.state.title.match(titleregex) || this.state.title.length===0){
             this.setState({titleError: true});
             flag = false;
@@ -51,7 +51,7 @@ class AddNews extends Component{
         const news = {
             title: this.state.title,
             news: this.state.content,
-            user_id: this.props.user_id,
+            user_id: 1,
             writer: getProfile().name,
             user_tag: getUserTag() 
         };
@@ -79,28 +79,23 @@ class AddNews extends Component{
     }
 
     render(){
-        const { showModal } = this.state;
 
         return(
-            <div>
-                <Modal size="mini" closeIcon onClose={this.closeModal} open={showModal} trigger={<Button positive onClick={() => this.setState({ showModal: true })}>Add News</Button>}>
-                    <Modal.Header>Add News</Modal.Header>
-                    <Modal.Content>
+            <Segment>
+                <Header as="h1">Create Post Here</Header>
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Field required onChange={this.handleChange} error={this.state.titleError}>
                             <label>Title</label>
                             <input name="title" placeholder='Title'/>
                         </Form.Field>
-                        <Form.Field required onChange={this.handleChange} error={this.state.contentError}>
-                            <label>News content</label>
-                            <input name="content" placeholder='News'/>
+                        <Form.Field required onChange={this.handleChange} error={this.state.contentError} type="textArea">
+                            <label>Content</label>
+                            <TextArea name='content' placeholder='Type your post here...' />
                         </Form.Field>
                         <Button type="submit" positive>Submit</Button>
                         <Button negative onClick={this.closeModal}>Cancel</Button>
-                    </Form>                        
-                    </Modal.Content>
-                </Modal>                            
-            </div>
+                    </Form>                                
+            </Segment>
         )
     }
 }

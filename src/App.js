@@ -16,10 +16,10 @@ import Navbar from './features/Navbar';
 import Orders from './features/commerce/Orders';
 import AdminNavbar from './features/admin/AdminNavbar';
 import FarmInfo from './features/sp/FarmInfo';
-import UserFarmInfo from './features/sp/UserFarmInfo';
 import FarmMaps from './features/sp/FarmMaps';
 import Bee from './features/sp/Bee';
 import ForumPage from './features/sp/ForumPage';
+import NewsPage from './features/sp/NewsPage';
 
 // helpers
 import {getUserTag} from './sessionhandler'
@@ -67,7 +67,7 @@ class App extends Component {
     super(props)
 
     this.state = {
-      loggedIn: getUserTag ? true : false,
+      loggedIn: getUserTag ? true : false
     }
 
     this.loggedInStatusHandler = this.loggedInStatusHandler.bind(this);
@@ -139,6 +139,10 @@ class App extends Component {
                    exact={true}
                    component={ForumPage}
             />
+            <Route path="/news/:id"
+                   exact={true}
+                   render={(props) => <NewsPage onChange={this.loggedInStatusHandler} {...props}/>}/>
+            
             {
               this.state.isAdmin ?
               (

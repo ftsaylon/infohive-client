@@ -12,9 +12,9 @@ export default class DeviceMap extends React.Component {
   constructor() {
     super();
     this.state = {
-      lat: 14.1648,
-      lng: 121.2413,
-      zoom: 13,
+      lat: 12.8797,
+      lng: 121.7740,
+      zoom: 6,
       farms:[]
     };
 
@@ -51,23 +51,45 @@ export default class DeviceMap extends React.Component {
     return (
       <Grid columns={2}>
       <GridColumn>
-        <Map center={position} zoom={this.state.zoom} scrollWheelZoom={false}>
-          <TileLayer
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-          />
-          {
-            this.state.farms.map((item, index) => {
-              return(
-                <Marker position={[item.lat, item.lng]}>
-                    <Popup>
-                        <span>{item.name}</span>
-                    </Popup>
-                </Marker>
-              )
-            })
-          }
+        {
+          this.state.isAdmin ? (
+          <Map center={position} zoom={this.state.zoom} scrollWheelZoom={false}>
+            <TileLayer
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+            />
+            {
+              this.state.farms.map((item, index) => {
+                return(
+                  <Marker position={[item.lat, item.lng] }>
+                      <Popup>
+                          <Header as={Link} to={"/farm/"+item.id}>{item.name}</Header>
+                      </Popup>
+                  </Marker>
+                )
+              })
+            }
           </Map>
+          ):(
+            <Map center={position} zoom={this.state.zoom} scrollWheelZoom={false}>
+              <TileLayer
+                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                  url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+              />
+              {
+                this.state.farms.map((item, index) => {
+                  return(
+                    <Marker position={[item.lat, item.lng] }>
+                        <Popup>
+                            <Header as={Link} to={"/admin/farm/"+item.id}>{item.name}</Header>
+                        </Popup>
+                    </Marker>
+                  )
+                })
+              }
+            </Map>    
+          )
+        }        
       </GridColumn>
       <GridColumn>
       <Segment>

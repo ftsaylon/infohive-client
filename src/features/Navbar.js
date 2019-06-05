@@ -2,8 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { Button, Form, Input, Menu} from 'semantic-ui-react';
 import {Link, withRouter} from 'react-router-dom';
 import Profile from './Profile.js';
-import CartModal from './modals/CartModal';
-import { getUserTag } from '../sessionhandler.js';
 
 class Navbar extends Component{
 	constructor(props){
@@ -80,14 +78,15 @@ class Navbar extends Component{
 							</Form.Field>
 						</Form>
 					</Menu.Item>															{/*Comment out if gonna remove sales*/}
-					{			/*Comment out if gonna remove sales*/
+					{			/*Comment out if gonna remove sales
 						getUserTag() &&
 						<Menu.Item icon='shopping cart' name='My Cart' onClick={() => {this.setState({opencart: true})}}/>
+						*/
 					}
 					<Profile onChange={this.props.onChange}/>
 				</Menu>
 				{/* Others */}
-				<CartModal opencart={this.state.opencart} handleOpenCart={this.handleOpenCart}/>    {/*Comment out if gonna remove sales*/}
+				{/* <CartModal opencart={this.state.opencart} handleOpenCart={this.handleOpenCart}/>    Comment out if gonna remove sales */}
 			</Fragment>
 		);
 	}

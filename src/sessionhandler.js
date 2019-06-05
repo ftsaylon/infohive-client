@@ -23,14 +23,15 @@ export function getProfile(){
 	profile.picture = localStorage.getItem('picture')
 	profile.name = localStorage.getItem('name')
 	profile.mode = localStorage.getItem('mode')
-	profile.id = localStorage.getItem('id');
+	profile.id = sessionStorage.getItem('fb_userid');
 	return profile
 }
 
-export function setProfile(name, picture, mode, user_tag){
+export function setProfile(name, picture, mode, id, user_tag){
 	localStorage.setItem('name', name)
 	localStorage.setItem('picture', picture)
 	localStorage.setItem('mode', mode)
+	localStorage.setItem('id', id)
 	localStorage.setItem('user_tag', user_tag)
 }
 

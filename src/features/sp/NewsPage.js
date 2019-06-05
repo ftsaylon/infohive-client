@@ -1,39 +1,52 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
-import {NotificationManager} from 'react-notifications';
-import { getUserTag } from '../../sessionhandler';
 import axios from 'axios';
-import  { Grid, Header, Segment, Card, Image, Divider, Label, Container, Feed } from 'semantic-ui-react';
+import { Divider, Container, Header } from 'semantic-ui-react';
+import NewsCommentSection from './NewsCommentSection';
 
 
-export default class UserFarmInfo extends Component{
+export default class NewsPage extends Component{
     constructor(props){
         super(props);
         this.state={
-        
+            title:"",
+            news:"",
+            writer:""
         }
 
         this.loadValues = this.loadValues.bind(this);
     }
 
     loadValues(){
-
+        axios.get(`/news/${this.props.match.params.id}`)
+        .then((response) => {
+            console.log(response);
+            this.setState(response.data.result[0]);
+        })
+        .catch((error) => {
+            console.log(error.response);
+            this.setState({isEmpty:true});
+        })
     }
 
     componentDidMount(){
         this.loadValues();
     }
-    
-    updateList = (path, action) => {
-        this.loadValues();
-        NotificationManager.success(`Successfully ${action} ${path}`)
-    }
-    
+
     render(){
         return(
-            <div className="ForumPage">
-        
+            <div className="Bee">
+            <Divider/>
+                <Container>
+                <Header as="h1"> {this.state.title} </Header>
+                <Header>{this.state.writer}</Header>
+                <Header>
+                    {this.state.news}
+                </Header>
+                </Container>
+                <br/><br/>
+                <NewsCommentSection newsId={this.props.match.params.id} onChange={this.props.onChange}/>
             </div>
-        );
+        )
     }
 }
+

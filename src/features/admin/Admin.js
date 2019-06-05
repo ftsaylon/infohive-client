@@ -265,12 +265,19 @@ class Admin extends Component{
                                     updateList={this.updateList}
                                     handleDeleteSubmit={this.handleDeleteSubmit}
                                     sorter={this.sortColumn}
+                                    {...props}
                                 />
                             }
                         />           
                         <Route path="/admin/farm/:id"
                             exact={true}
-                            component={UserFarmInfo}
+                            render={
+                                (props) =>
+                                <UserFarmInfo
+                                    handleDeleteSubmit={this.handleDeleteSubmit}
+                                    {...props}
+                                />
+                            }
                         />
                 </React.Fragment>
         )

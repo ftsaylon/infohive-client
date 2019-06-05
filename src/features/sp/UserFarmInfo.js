@@ -3,11 +3,10 @@ import {Link} from 'react-router-dom';
 import {NotificationManager} from 'react-notifications';
 import { getUserTag } from '../../sessionhandler';
 import axios from 'axios';
-import  { Grid, Header, Segment, Card, Image, Divider, Label, Container, Feed } from 'semantic-ui-react';
+import  { Grid, Header, Segment, Card, Image, Divider, Label, Container, Button, Icon } from 'semantic-ui-react';
 
 import AddFarmBee from './AddFarmBee';
 import AddFarmProduct from './AddFarmProduct';
-import AddNews from './AddNews';
 
 export default class UserFarmInfo extends Component{
     constructor(props){
@@ -35,22 +34,22 @@ export default class UserFarmInfo extends Component{
     }
 
     loadValues(){
-        axios.post(`/farm/`, {user_tag: getUserTag()})
+        axios.get(`/farm/${this.props.match.params.id}`)
         .then(response => {
 			console.log(response)
             this.setState({farm: response.data.result})
 
-            axios.get(`/farm/${this.state.farm.user_id}/bees`)
+            axios.get(`/farm/${this.state.farm.id}/bees`)
             .then(response => {
                 console.log(response)
                 this.setState({ bees: response.data.result })
                 
-                axios.get(`/farm/${this.state.farm.user_id}/products`)
+                axios.get(`/farm/${this.state.farm.id}/products`)
                 .then(response => {
                     console.log(response)
                     this.setState({ products: response.data.result })
                     
-                    axios.get(`/users/${this.state.farm.user_id}/news`)
+                    axios.get(`/users/${this.state.farm.id}/news`)
                     .then(response => {
                         console.log(response)
                         this.setState({news: response.data})
@@ -95,58 +94,24 @@ export default class UserFarmInfo extends Component{
         this.loadValues();
         NotificationManager.success(`Successfully ${action} ${path}`)
     }
-    
+
     render(){
 
         return(
             <div className="UserFarmInfo">
             <Divider/>
-                <Grid columns={4}>
+                <Grid columns={3}>
                     <Grid.Column>
                         <Segment>
-                            <Header> {this.state.farm.name} </Header>
+                            <Header as="h1"> {this.state.farm.name} </Header>
                             <Divider/>
-                            <Label size="big" color="green"> Location: {this.state.address}</Label>
-                            <Label size="big" color="blue"> Population: {this.state.farm.population} </Label>
+                            {/* <Label size="big" color="green"> Location: {this.state.address}</Label> */}
+                            {/* <Label size="big" color="blue"> Population: {this.state.farm.population} </Label> */}
                             <Divider/>
                             <Container>
                                 <Header> Description </Header>
                                 <Container>{this.state.farm.description}</Container>
                             </Container>
-                        </Segment>
-                    </Grid.Column>
-                    <Grid.Column scrollable>
-                        <Segment>
-                            <Header> Feed </Header>
-                            <Divider/>
-                            <AddNews
-                                updateList = {this.updateList}
-                                user_id = {this.state.farm.user_id}
-                            />
-                            <Feed>
-                                {
-                                    this.state.news.map((item, index) =>{
-                                        return(
-                                            <Feed.Event>
-                                            <Feed.Label>
-                                                {/* <img src='/images/avatar/small/elliot.jpg' /> */}
-                                            </Feed.Label>
-                                            <Feed.Content>
-                                            <Feed.Label>{item.title}</Feed.Label>
-                                                <Feed.Summary>
-                                                <Feed.User>{item.writer}</Feed.User>
-                                                <br/>
-                                                {item.news}
-                                                <br/>
-                                                <Feed.Date>{item.date}</Feed.Date>
-                                                </Feed.Summary>
-                                            </Feed.Content>
-                                            </Feed.Event>
-
-                                        );
-                                    })
-                                }
-                            </Feed>
                         </Segment>
                     </Grid.Column>
                     <Grid.Column>
@@ -157,20 +122,30 @@ export default class UserFarmInfo extends Component{
                                 farm_id = {this.state.farm.id}
                             />
                             <Divider/>
-                            <Card.Group>
+                            <Segment>
                                 {
                                     this.state.bees.map((item, index)=>{
                                         return(
+                                            <div>
                                             <Card key={index} as={Link} to={"/bee/"+item.id}>
-                                                <Card.Content>
-                                                    {item.name}
-                                                    <Image/>    
-                                                </Card.Content>
+                                                <Header>{item.name}</Header>
+                                                <Image size="small" src={item.imageUrl}/>  
+                                                <Button 
+                                                    onClick={(e) => {this.props.handleDeleteSubmit(e, "farm-bee", item.id);}} 
+                                                    negative
+                                                    compact
+                                                    attached="bottom"
+                                                    >
+                                                <Icon name="delete"/>
+                                                    Delete
+                                                </Button>
                                             </Card>
+                                            </div>
+                                            
                                         );
                                     })
                                 }
-                            </Card.Group>
+                            </Segment>
                         </Segment>
                     </Grid.Column>
                     <Grid.Column>
@@ -181,20 +156,29 @@ export default class UserFarmInfo extends Component{
                                 farm_id = {this.state.farm.id}
                             />
                             <Divider/>
-                            <Card.Group>
+                            <Segment>
                             {
                                     this.state.products.map((item, index)=>{
                                         return(
+                                            <div>
                                             <Card key={index} as={Link} to={"/all_products/product/"+item.id}>
-                                                <Card.Content>
-                                                    {item.name}
-                                                    <Image/>    
-                                                </Card.Content>
+                                                <Header>{item.name}</Header>
+                                                <Image size="small" src={item.imageUrl}/> 
+                                                <Button 
+                                                    onClick={(e) => {this.props.handleDeleteSubmit(e, "farm-product", item.id);}} 
+                                                    negative
+                                                    compact
+                                                    attached="bottom"
+                                                    >
+                                                <Icon name="delete"/>
+                                                    Delete
+                                                </Button>
                                             </Card>
+                                            </div>
                                         );
                                     })
                                 }
-                            </Card.Group>
+                            </Segment>
                         </Segment>
                     </Grid.Column>
                 </Grid>
@@ -202,3 +186,7 @@ export default class UserFarmInfo extends Component{
         );
     }
 }
+
+
+
+

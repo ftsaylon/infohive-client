@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Divider, Container, Header, Image } from 'semantic-ui-react';
 
-export default class Product extends Component{
+export default class Bee extends Component{
     constructor(props){
         super(props);
         this.state={
@@ -36,7 +36,7 @@ export default class Product extends Component{
             <Divider/>
                 <Container>
                 <Header as="h1"> {this.state.name} </Header>
-                <Image size="small" src="https://png.pngtree.com/element_origin_min_pic/16/07/06/09577c5f9cc3c6f.jpg"/>
+                <Image size="large" src={this.state.imageUrl}/>
                 
                 <Header>
                     {this.state.description}

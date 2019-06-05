@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
 import { NotificationManager } from 'react-notifications';
 import { Menu, Dropdown, Image } from 'semantic-ui-react';
-import axios from 'axios'
-import FBLoginButton from './login/FBLoginButton'
-import GoogleLoginButton from './login/GoogleLoginButton'
-import FBSignUpButton from './login/FBSignUpButton'
-import CartModal from './modals/CartModal'
-import GoogleSignUpButton from './login/GoogleSignUpButton'
+import axios from 'axios';
+import FBLoginButton from './login/FBLoginButton';
+import GoogleLoginButton from './login/GoogleLoginButton';
+import FBSignUpButton from './login/FBSignUpButton';
+import GoogleSignUpButton from './login/GoogleSignUpButton';
 
 // helpers
-import {logout, getUserTag, getProfile, setProfile} from '../sessionhandler'
+import {logout, getUserTag, getProfile, setProfile} from '../sessionhandler';
 
 class Profile extends Component{
 	constructor(props){
@@ -34,22 +32,24 @@ class Profile extends Component{
 			return(this.loggedOut())
 		}
 	}
+	
 	openModal(){
 		this.setState({opencart:true});
 	}
+
 	loggedIn(){
 		return(
 			<Menu.Item>
 				<Dropdown floating icon="user" className="link item" fluid>
 					<Dropdown.Menu style={{right:0,left:'auto'}}>
 						<Dropdown.Header>
-							<Image size='mini' circular src={getProfile().picture} /> {getProfile().name}
+							<Image size='mini' circular src={getProfile().picture} /> {getProfile().name} 
 						</Dropdown.Header>
 						
-						<Dropdown.Divider/>
+						{/* <Dropdown.Divider/> */}
 							{/* <Dropdown.Item icon='shopping cart' text='My Cart' onClick={this.openModal}/> */}
-							<CartModal opencart={this.state.opencart}/>
-						<Dropdown.Item icon="clipboard" text="My Orders" as={Link} to="/orders"/>
+							{/* <CartModal opencart={this.state.opencart}/> */}
+						{/* <Dropdown.Item icon="clipboard" text="My Orders" as={Link} to="/orders"/> */}
 						
 						<Dropdown.Divider/>
 						
