@@ -24,7 +24,7 @@ class Footer extends Component {
           marginTop:"10%"
         }}>
         <p>
-            &copy; DA-BAR InfoHive 2015
+            &copy; UPLB Bee Program InfoHive 2019
         </p>
       </Segment>
       </footer>

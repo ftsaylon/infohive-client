@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Form, Button, Dropdown, TextArea } from 'semantic-ui-react';
+import { Modal, Form, Button, Dropdown } from 'semantic-ui-react';
 import axios from 'axios';
 import { getUserTag } from '../../sessionhandler';
 
@@ -33,7 +33,7 @@ class AddFarmBee extends Component{
 
         axios.post(`/farm/putbee`, Bee )                        //Actual Bee Insert
         .then(res => {
-            // this.props.updateList("Bee", 'added');
+            this.props.updateList("bee", 'added');
             this.setState({         
                 bee_id:""
             });

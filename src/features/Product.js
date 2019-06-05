@@ -119,11 +119,11 @@ export default class Product extends Component{
 		                                        <Label style={{width:'100%'}} tag color={"red"} size={"large"}>Size: {this.state.size}</Label>
 		                                        <Label style={{width:'100%'}} tag color={"orange"} size={"large"}>Stocks Left: {this.state.stock}</Label>
 		                                        <Divider/>			
-		                                        <AddToCartButton price={this.state.price}
+		                                        {/* <AddToCartButton price={this.state.price}
 		                                                         name={this.state.name}
 		                                                         id={this.props.match.params.id}
 		                                                         stock={this.state.stock}/>
-												{this.showEyes()}				{/*Comment out if gonna remove sales*/}
+												{this.showEyes()}				Comment out if gonna remove sales */}
 		                                    </Grid.Column>	
 		                                </Grid.Row>
 		                            </Grid>

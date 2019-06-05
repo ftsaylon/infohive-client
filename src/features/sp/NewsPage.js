@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Divider, Container, Header, Image } from 'semantic-ui-react';
+import { Divider, Container, Header } from 'semantic-ui-react';
+import NewsCommentSection from './NewsCommentSection';
 
-export default class Bee extends Component{
+
+export default class NewsPage extends Component{
     constructor(props){
         super(props);
         this.state={
-            name:"",
-            description:"",
-            imageUrl:""
+            title:"",
+            news:"",
+            writer:""
         }
 
         this.loadValues = this.loadValues.bind(this);
     }
 
     loadValues(){
-        axios.get(`/bee/${this.props.match.params.id}`)
+        axios.get(`/news/${this.props.match.params.id}`)
         .then((response) => {
             console.log(response);
             this.setState(response.data.result[0]);
@@ -35,13 +37,14 @@ export default class Bee extends Component{
             <div className="Bee">
             <Divider/>
                 <Container>
-                <Header as="h1"> {this.state.name} </Header>
-                <Image size="large" src={this.state.imageUrl}/>
-                
+                <Header as="h1"> {this.state.title} </Header>
+                <Header>{this.state.writer}</Header>
                 <Header>
-                    {this.state.description}
+                    {this.state.news}
                 </Header>
                 </Container>
+                <br/><br/>
+                <NewsCommentSection newsId={this.props.match.params.id} onChange={this.props.onChange}/>
             </div>
         )
     }

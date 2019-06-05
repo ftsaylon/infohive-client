@@ -19,7 +19,7 @@ class CategoryProductList extends Component{
 						<Image size="small" src="https://png.pngtree.com/element_origin_min_pic/16/07/06/09577c5f9cc3c6f.jpg"/>	
 					</Card.Content>
 					<Card.Header textAlign="center">
-						<Header>All Products ({this.props.totalProducts}) </Header>
+						<Header>All Products </Header>
 					</Card.Header>
 				</Card>
 
@@ -34,10 +34,10 @@ class CategoryProductList extends Component{
 				return(
 					<Card key={index} as={Link} to={"/"+items.category+"/product/"}>
 						<Card.Content>
-							<Image size="small" src="http://placehold.it/400x250"/>	
+							{/* <Image size="small" src="http://placehold.it/400x250"/>	 */}
 						</Card.Content>
 						<Card.Header textAlign="center">
-							<Header>{items.category} ({items.count}) </Header>
+							<Header>{items.category} </Header>
 						</Card.Header>
 					</Card>
 				);
