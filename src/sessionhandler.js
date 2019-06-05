@@ -15,6 +15,7 @@ export function getItem(key){
 }
 
 export function getUserTag(){
+	// console.log(localStorage.getItem("user_tag"));
 	return localStorage.getItem('user_tag')
 }
 
@@ -27,11 +28,10 @@ export function getProfile(){
 	return profile
 }
 
-export function setProfile(name, picture, mode, id, user_tag){
+export function setProfile(name, picture, mode, user_tag){
 	localStorage.setItem('name', name)
 	localStorage.setItem('picture', picture)
 	localStorage.setItem('mode', mode)
-	localStorage.setItem('id', id)
 	localStorage.setItem('user_tag', user_tag)
 }
 

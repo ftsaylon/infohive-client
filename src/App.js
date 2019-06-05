@@ -67,7 +67,8 @@ class App extends Component {
     super(props)
 
     this.state = {
-      loggedIn: getUserTag ? true : false
+      loggedIn: getUserTag ? true : false,
+      isAdmin: false
     }
 
     this.loggedInStatusHandler = this.loggedInStatusHandler.bind(this);
@@ -172,6 +173,7 @@ class App extends Component {
     axios.post(`/admin`, {user_tag: getUserTag()})
     .then(response => {
       this.setState({isAdmin: true})
+      System.out.println(this.state.isAdmin)
       return true
     }) 
     .catch(err => {
